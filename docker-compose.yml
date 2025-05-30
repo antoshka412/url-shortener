@@ -12,7 +12,6 @@ services:
       - CASSANDRA_RACK=rack1
     volumes:
       - cassandra_data:/var/lib/cassandra
-      - ./init.cql:/docker-entrypoint-initdb.d/init.cql
     networks:
       - cassandra-net
 

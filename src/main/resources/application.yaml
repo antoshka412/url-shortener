@@ -1,3 +1,5 @@
+app:
+  short-domain: http://short.ly/
 spring:
   application:
     name: url-shortener
