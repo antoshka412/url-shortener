@@ -26,20 +26,28 @@ public class UrlShortenerController {
 
     @PostMapping("/shorten")
     public ResponseEntity<?> shortenUrl(@RequestBody UrlShortenerRequest request) {
-
         String originalUrl = request.url();
+
         if (!urlValidator.isValid(originalUrl)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ErrorResponse("Invalid URL format."));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Invalid URL format."));
         }
 
-        String code = urlShortenerService.shortenUrl(request.url());
-        return ResponseEntity.ok(new UrlShortenerResponse(shortDomain + code));
+        // Generate a unique short code
+        String code;
+        do {
+            code = urlShortenerService.generateShortCode();
+        } while (urlShortenerService.existsByShortCode(code));
+
+        // Save the new mapping
+        urlShortenerService.saveMapping(code, originalUrl);
+
+        return ResponseEntity.ok(new UrlShortenerResponse(shortDomain + code, code));
     }
 
-    @GetMapping("/{shortUrl}")
-    public ResponseEntity<Void> redirectToOriginalUrl(@PathVariable String shortUrl) {
-        String originalUrl = urlShortenerService.getOriginalUrl(shortUrl);
+
+    @GetMapping("/{shortCode}")
+    public ResponseEntity<Void> redirectToOriginalUrl(@PathVariable String shortCode) {
+        String originalUrl = urlShortenerService.getOriginalUrl(shortCode);
 
         if (originalUrl != null) {
             return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(originalUrl)).build();

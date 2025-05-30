@@ -15,10 +15,8 @@ public class UrlShortenerService {
         this.urlMappingRepository = urlMappingRepository;
     }
 
-    public String shortenUrl(String originalUrl) {
-        String shortenedUrl = Base62Encoder.generateCode();
-        saveMapping(shortenedUrl, originalUrl);
-        return shortenedUrl;
+    public String generateShortCode() {
+        return Base62Encoder.generateCode();
     }
 
     public void saveMapping(String shortUrl, String originalUrl) {
@@ -29,6 +27,10 @@ public class UrlShortenerService {
     public String getOriginalUrl(String shortUrl) {
         Optional<UrlMapping> result = urlMappingRepository.findById(shortUrl);
         return result.map(UrlMapping::getOriginalUrl).orElse(null);
+    }
+
+    public boolean existsByShortCode(String shortCode) {
+        return urlMappingRepository.existsByShortCode(shortCode);
     }
 
 }

@@ -1,5 +1,5 @@
 package com.antonina.urlshortener.model;
 
-public record UrlShortenerResponse(String shortenedUrl) {
+public record UrlShortenerResponse(String shortenedUrl, String code) {
 }
 

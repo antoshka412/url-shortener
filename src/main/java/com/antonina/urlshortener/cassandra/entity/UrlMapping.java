@@ -8,23 +8,23 @@ import org.springframework.data.cassandra.core.mapping.Table;
 public class UrlMapping {
 
     @PrimaryKey
-    @Column("short_url")
-    private String shortUrl;
+    @Column("short_code")
+    private String shortCode;
 
     @Column("original_url")
     private String originalUrl;
 
-    public UrlMapping(String shortUrl, String originalUrl) {
-        this.shortUrl = shortUrl;
+    public UrlMapping(String shortCode, String originalUrl) {
+        this.shortCode = shortCode;
         this.originalUrl = originalUrl;
     }
 
-    public String getShortUrl() {
-        return shortUrl;
+    public String getShortCode() {
+        return shortCode;
     }
 
-    public void setShortUrl(String shortUrl) {
-        this.shortUrl = shortUrl;
+    public void setShortCode(String shortCode) {
+        this.shortCode = shortCode;
     }
 
     public String getOriginalUrl() {
