@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: url-shortener
+  cassandra:
+    keyspace-name: url_shortener_keyspace
+    contact-points: localhost:9042
+    local-datacenter: datacenter1
+    schema-action: create_if_not_exists
+
