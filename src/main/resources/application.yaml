@@ -1,5 +1,5 @@
 app:
-  short-domain: http://short.ly/
+  short-domain: localhost:8080
 spring:
   application:
     name: url-shortener

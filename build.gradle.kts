@@ -34,11 +34,8 @@ dependencies {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
 
-//    testImplementation("org.testcontainers:junit-jupiter")
-//    testImplementation("org.testcontainers:cassandra")
-
-//    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     testImplementation("org.testcontainers:testcontainers")
+    testImplementation("org.testcontainers:cassandra")
     testImplementation("org.testcontainers:junit-jupiter")
 
 }

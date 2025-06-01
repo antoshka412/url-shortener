@@ -30,7 +30,7 @@ public class UrlShortenerService {
     }
 
     public boolean existsByShortCode(String shortCode) {
-        return urlMappingRepository.existsByShortCode(shortCode);
+        return urlMappingRepository.findById(shortCode).isPresent();
     }
 
 }

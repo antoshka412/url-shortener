@@ -41,7 +41,7 @@ public class UrlShortenerController {
         // Save the new mapping
         urlShortenerService.saveMapping(code, originalUrl);
 
-        return ResponseEntity.ok(new UrlShortenerResponse(shortDomain + code, code));
+        return ResponseEntity.ok(new UrlShortenerResponse(shortDomain + "/" + code, code));
     }
 
 

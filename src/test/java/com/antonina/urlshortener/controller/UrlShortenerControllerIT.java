@@ -30,9 +30,12 @@ public class UrlShortenerControllerIT extends IntegrationTestBase {
         UrlShortenerRequest request = new UrlShortenerRequest("https://example.com");
         String json = objectMapper.writeValueAsString(request);
 
-        String response = mockMvc.perform(post("/api/url/shorten").contentType(MediaType.APPLICATION_JSON).content(json)).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        String response = mockMvc.perform(post("/api/url/shorten")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(json)).andExpect(status().isOk())
+            .andReturn().getResponse().getContentAsString();
 
-        String shortUrl = objectMapper.readTree(response).get("shortUrl").asText();
+        String shortUrl = objectMapper.readTree(response).get("shortenedUrl").asText();
         String shortCode = shortUrl.substring(shortUrl.lastIndexOf("/") + 1);
 
         mockMvc.perform(get("/api/url/" + shortCode)).andExpect(status().isFound()).andExpect(header().string("Location", "https://example.com"));
