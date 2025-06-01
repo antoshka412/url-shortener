@@ -10,7 +10,8 @@ import org.testcontainers.utility.DockerImageName;
 @Testcontainers
 public abstract class IntegrationTestBase {
 
- public static CassandraContainer cassandra = new CassandraContainer(DockerImageName.parse("cassandra:4.1")).withInitScript("init.cql");
+    public static CassandraContainer cassandra = new CassandraContainer(
+        DockerImageName.parse("cassandra:4.1")).withInitScript("init.cql");
 
     @BeforeAll
     static void startContainer() {

@@ -25,6 +25,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-cassandra")
 
     implementation("commons-validator:commons-validator:1.7")
+    implementation("org.apache.httpcomponents.client5:httpclient5:5.5")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")

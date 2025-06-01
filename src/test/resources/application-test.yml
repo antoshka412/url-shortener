@@ -1,0 +1,2 @@
+app:
+  short-domain: http://localhost:${local.server.port}
