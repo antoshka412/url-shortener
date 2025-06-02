@@ -65,14 +65,16 @@ class UrlShortenerServiceTests {
 
     @Test
     void findById_shouldReturnTrueIfExists() {
-        when(urlMappingRepository.findById("abc123").isPresent()).thenReturn(true);
+        when(urlMappingRepository.findById("abc123"))
+            .thenReturn(Optional.of(new UrlMapping("abc123", "https://example.com")));
 
         assertTrue(urlShortenerService.existsByShortCode("abc123"));
     }
 
     @Test
     void findById_shouldReturnFalseIfNotExists() {
-        when(urlMappingRepository.findById("xyz789").isPresent()).thenReturn(false);
+        when(urlMappingRepository.findById("xyz789"))
+            .thenReturn(Optional.empty());
 
         assertFalse(urlShortenerService.existsByShortCode("xyz789"));
     }
