@@ -1,5 +1,8 @@
 name: Java CI/CD with Gradle
 
+permissions:
+  contents: write
+
 on:
   push:
     branches: [ main ]
