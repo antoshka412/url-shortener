@@ -33,7 +33,7 @@ Creates a short URL from a long one.
 
 ```json
 {
-  "url": "https://example.com/"
+  "url": "https://example.com/products/category/electronics/phones/smartphones/samsung/galaxy-s-series/model-2025-ultra/specs/details?color=black&storage=512GB&region=EU&currency=EUR&ref=campaign_summer2025&utm_source=newsletter&utm_medium=email&utm_campaign=launch_event&utm_term=galaxy_ultra&utm_content=button_click#specifications"
 }
 ```
 
@@ -46,7 +46,7 @@ Creates a short URL from a long one.
 }
 ```
 
-**Response Body 404 Not Found (JSON):**
+**Response Body 400 Bad Request (JSON):**
 
 ```json
 {
