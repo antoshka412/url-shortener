@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api/url")
+@RequestMapping("/api/urls")
 public class UrlShortenerController {
     private static final UrlValidator urlValidator = new UrlValidator(new String[]{"http", "https"});
     private final UrlShortenerService urlShortenerService;
@@ -24,7 +24,7 @@ public class UrlShortenerController {
         this.urlShortenerService = urlShortenerService;
     }
 
-    @PostMapping("/shorten")
+    @PostMapping
     public ResponseEntity<?> shortenUrl(@RequestBody UrlShortenerRequest request) {
         String originalUrl = request.url();
 

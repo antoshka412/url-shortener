@@ -1,7 +1,5 @@
 package com.antonina.urlshortener.controller;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 import com.antonina.urlshortener.IntegrationTestBase;
 import com.antonina.urlshortener.model.UrlShortenerRequest;
 import com.antonina.urlshortener.model.UrlShortenerResponse;
@@ -14,7 +12,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UrlShortenerControllerIT extends IntegrationTestBase {
@@ -31,14 +30,13 @@ public class UrlShortenerControllerIT extends IntegrationTestBase {
     private TestRestTemplate restTemplate;
 
     private String getBaseUrl() {
-        return "http://localhost:" + port + "/api/url";
+        return "http://localhost:" + port + "/api/urls";
     }
 
     @Test
     void testShortenEmptyUrl() {
         UrlShortenerRequest request = new UrlShortenerRequest("");
-        ResponseEntity<String> response = restTemplate.postForEntity(getBaseUrl() + "/shorten",
-            request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(getBaseUrl(), request, String.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(response.getBody()).contains("Invalid URL format");
     }
@@ -46,8 +44,7 @@ public class UrlShortenerControllerIT extends IntegrationTestBase {
     @Test
     void testShortenNullUrl() {
         UrlShortenerRequest request = new UrlShortenerRequest(null);
-        ResponseEntity<String> response = restTemplate.postForEntity(getBaseUrl() + "/shorten",
-            request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(getBaseUrl(), request, String.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(response.getBody()).contains("Invalid URL format");
     }
@@ -56,8 +53,7 @@ public class UrlShortenerControllerIT extends IntegrationTestBase {
     void shouldShortenAndRedirectUrl() {
         String originalUrl = "https://example.com/";
         UrlShortenerRequest request = new UrlShortenerRequest(originalUrl);
-        ResponseEntity<UrlShortenerResponse> response = restTemplate.postForEntity(
-            getBaseUrl() + "/shorten", request, UrlShortenerResponse.class);
+        ResponseEntity<UrlShortenerResponse> response = restTemplate.postForEntity(getBaseUrl(), request, UrlShortenerResponse.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
@@ -71,8 +67,7 @@ public class UrlShortenerControllerIT extends IntegrationTestBase {
         assertThat(urlShortenerService.existsByShortCode(shortCode)).isTrue();
         assertThat(urlShortenerService.getOriginalUrl(shortCode)).isEqualTo(originalUrl);
 
-        ResponseEntity<Void> redirectResponse = restTemplate.getForEntity(
-            getBaseUrl() + "/" + shortCode, Void.class);
+        ResponseEntity<Void> redirectResponse = restTemplate.getForEntity(getBaseUrl() + "/" + shortCode, Void.class);
 
         assertThat(redirectResponse.getHeaders().getLocation().toString()).isEqualTo(originalUrl);
         assertThat(redirectResponse.getStatusCode()).isEqualTo(HttpStatus.FOUND);
@@ -81,8 +76,7 @@ public class UrlShortenerControllerIT extends IntegrationTestBase {
     @Test
     void testShortenInvalidUrl() {
         UrlShortenerRequest request = new UrlShortenerRequest("ftp://invalid-url");
-        ResponseEntity<String> response = restTemplate.postForEntity(getBaseUrl() + "/shorten",
-            request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(getBaseUrl(), request, String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
         assertThat(response.getBody()).contains("Invalid URL format");
@@ -90,10 +84,8 @@ public class UrlShortenerControllerIT extends IntegrationTestBase {
 
     @Test
     void testRedirectWithUnknownShortCode() {
-        ResponseEntity<Void> response = restTemplate.getForEntity(getBaseUrl() + "/nonexistent123",
-            Void.class);
+        ResponseEntity<Void> response = restTemplate.getForEntity(getBaseUrl() + "/nonexistent123", Void.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
-
 
 }

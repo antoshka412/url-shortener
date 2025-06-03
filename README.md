@@ -6,8 +6,8 @@ A minimal and efficient URL shortening service built with Spring Boot and Cassan
 
 ## ✨ Features
 
-- 🔹 Shorten long URLs to compact, easy-to-share links
-- 🔸 Redirect short URLs to their original long form
+- Shorten long URLs to compact, easy-to-share links
+- Redirect short URLs to their original long form
 
 ---
 
@@ -25,7 +25,7 @@ A minimal and efficient URL shortening service built with Spring Boot and Cassan
 
 ## 🔌 API Overview
 
-### 🎯 POST `/api/url/shorten`
+### 🎯 POST `/api/urls`
 
 Creates a short URL from a long one.
 
@@ -54,7 +54,7 @@ Creates a short URL from a long one.
 }
 ```
 
-### 🔁 GET `/api/url/{shortCode}`
+### 🔁 GET `/api/urls/{shortCode}`
 
 Redirects to the original long URL.
 
@@ -93,7 +93,9 @@ application.properties.
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/url-shortener.git
+git clone https://github.com/antoshka412/url-shortener.git
+```
+```bash
 cd url-shortener
 ```
 
