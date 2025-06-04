@@ -2,17 +2,18 @@ package com.antonina.urlshortener.service;
 
 import com.antonina.urlshortener.cassandra.entity.UrlMapping;
 import com.antonina.urlshortener.cassandra.repository.UrlMappingRepository;
+import com.antonina.urlshortener.redis.CachingService;
 import com.antonina.urlshortener.util.Base62Encoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UrlShortenerService {
     private final UrlMappingRepository urlMappingRepository;
+    private final CachingService cachingService;
 
-    public UrlShortenerService(UrlMappingRepository urlMappingRepository) {
+    public UrlShortenerService(UrlMappingRepository urlMappingRepository, CachingService cachingService) {
         this.urlMappingRepository = urlMappingRepository;
+        this.cachingService = cachingService;
     }
 
     public String generateShortCode() {
@@ -25,8 +26,10 @@ public class UrlShortenerService {
     }
 
     public String getOriginalUrl(String shortUrl) {
-        Optional<UrlMapping> result = urlMappingRepository.findById(shortUrl);
-        return result.map(UrlMapping::getOriginalUrl).orElse(null);
+        return this.cachingService.getOriginalUrl(shortUrl)
+                .or(() -> urlMappingRepository
+                        .findById(shortUrl)
+                        .map(UrlMapping::getOriginalUrl)).orElse(null);
     }
 
     public boolean existsByShortCode(String shortCode) {

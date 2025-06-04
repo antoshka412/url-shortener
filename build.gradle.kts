@@ -23,6 +23,7 @@ dependencies {
     implementation("org.springframework:spring-web:6.2.7")
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-data-cassandra")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
 
     implementation("commons-validator:commons-validator:1.7")
     implementation("org.apache.httpcomponents.client5:httpclient5:5.5")

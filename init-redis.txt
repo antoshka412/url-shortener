@@ -1,0 +1,2 @@
+SET ABCD123 https://github.com/antoshka412/url-shortener/blob/main/documentation/shorten-and-redirect-flow.puml
+SET 123ABCD https://github.com/antoshka412/url-shortener/blob/main/src/main/java/com/antonina/urlshortener/controller/UrlShortenerController.java

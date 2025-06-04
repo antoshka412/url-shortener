@@ -3,12 +3,13 @@
 
 actor User
 participant "URL Shortener Service" as Service
+database Redis as Redis
 database "Cassandra DB" as DB
 
 == Shorten URL ==
 User -> Service : POST /api/urls (long URL)
 alt Malformed URL
-    Service --> User : 400 Bad Request
+    Service -> User : 400 Bad Request
 else Valid URL
     Service -> DB : Store (shortCode, originalUrl)
     DB --> Service : Acknowledge
@@ -17,13 +18,20 @@ end
 
 == Redirect URL ==
 User -> Service : GET /api/urls/{shortCode}
-Service -> DB : Gets originalUrl by shortCode
-alt Not Found
-    DB --> Service : null
-    Service --> User : 404 Not Found
-else Found
-    DB --> Service : longURL
-    Service --> User : 302 Found + Redirect to longURL
+Service -> Redis : Gets originalUrl by shortCode
+alt Cache Entry Found
+    Redis -> Service: Cached Data
+    Service -> User : 302 Found + Redirect to longURL
+else Entry Not Found
+    Service -> DB : Gets originalUrl by shortCode
+    alt Not Found
+        DB -> Service : null
+        Service -> User : 404 Not Found
+    else Found
+        DB -> Service : longURL
+        Service -> User : 302 Found + Redirect to longURL
+    end
+
 end
 
 @enduml

@@ -12,6 +12,18 @@ services:
       - cassandra_data:/var/lib/cassandra
     networks:
       - cassandra-net
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+    - "6379:6379"
+    volumes:
+      - ./init-redis.txt:/data/init-redis.txt
+    command: >
+      sh -c "redis-server --daemonize yes &&
+             sleep 1 &&
+             redis-cli < /data/init-redis.txt &&
+             tail -f /dev/null"
 
 volumes:
   cassandra_data:
