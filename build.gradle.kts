@@ -38,6 +38,7 @@ dependencies {
 
     testImplementation("org.testcontainers:testcontainers")
     testImplementation("org.testcontainers:cassandra")
+    testImplementation("com.redis:testcontainers-redis:2.2.4")
     testImplementation("org.testcontainers:junit-jupiter")
 
 }
